@@ -1,0 +1,22 @@
+server:
+  port: 5555
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: product-service
+          uri: lb://product-service
+          predicates:
+            - Path=/product-url/**
+          filters:
+            - StripPrefix=1
+            - CustomFilter
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    serviceUrl:
+      defaultZone: ${EUREKA_URI:http://localhost:8761/eureka}
+      fetchRegistry: false
